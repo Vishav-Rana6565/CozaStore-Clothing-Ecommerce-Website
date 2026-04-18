@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>COZA STORE – Login & Signup</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #eee;
+    }
+
+    .container {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .box {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 40px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(255,255,255,0.2);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 26px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+
+    input::placeholder {
+      color: #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+    }
+
+    .signup-btn {
+      background: #00c896;
+    }
+
+    .signup-btn:hover {
+      background: #00a178;
+    }
+
+    .login-btn {
+      background: #ff6f61;
+    }
+
+    .login-btn:hover {
+      background: #ff3b2e;
+    }
+
+    .msg {
+      margin-top: 12px;
+      font-size: 14px;
+      min-height: 18px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- SIGNUP -->
+    <div class="box">
+      <h2>Sign Up</h2>
+      <form id="signup-form">
+        <input type="email" id="signup-email" placeholder="Email" required />
+        <input type="password" id="signup-password" placeholder="Password" required />
+        <button class="signup-btn" type="submit">Create Account</button>
+      </form>
+      <div class="msg" id="signup-msg"></div>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="box">
+      <h2>Login</h2>
+      <form id="login-form">
+        <input type="email" id="login-email" placeholder="Email" required />
+        <input type="password" id="login-password" placeholder="Password" required />
+        <button class="login-btn" type="submit">Login</button>
+      </form>
+      <div class="msg" id="login-msg"></div>
+    </div>
+
+  </div>
+
+  <!-- SUPABASE -->
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+    
+    const supabaseUrl = "https://hzaheralbzykhqqilozl.supabase.co";
+    const supabaseKey = "sb_publishable_47641yzp6iSoO7hpmkXXHQ__E98_MvF";
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    // SIGNUP
+    document.getElementById("signup-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+      const msg = document.getElementById("signup-msg");
+
+      msg.style.color = "#ff6f61";
+      msg.textContent = "Creating account...";
+
+      const { error } = await supabase.auth.signUp({
+        email,
+        password
+      });
+
+      if (error) {
+        msg.textContent = error.message;
+      } else {
+        msg.style.color = "#00c896";
+        msg.textContent = "Signup successful!";
+        e.target.reset();
+      }
+    });
+
+    // LOGIN
+    document.getElementById("login-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+      const msg = document.getElementById("login-msg");
+
+      msg.style.color = "#ff6f61";
+      msg.textContent = "Logging in...";
+
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        msg.textContent = error.message;
+      } else {
+        msg.style.color = "#00c896";
+        msg.textContent = "Login successful!";
+        window.location.href = "index.html"; // later
+      }
+    });
+  </script>
+
+</body>
+</html>
