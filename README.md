@@ -1,6 +1,6 @@
 # CozaStore-Clothing-Ecommerce-Website
 
-Overview of the Project:  
+Description of the Project:  
 
 The advancement of web technologies and the widespread availability of the internet have significantly changed the way people shop and interact with businesses. Online shopping platforms allow customers to explore products, view detailed information, and place orders without the need to visit physical stores. These platforms also help businesses manage their products and customer orders in a more organized and efficient manner.
 COZA STORE 
